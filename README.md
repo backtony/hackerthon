@@ -12,6 +12,7 @@
 
 ```
 sample
+├── frontend                   # React, TypeScript, Mantine UI
 ├── domain                     # 도메인 모델
 ├── application                # 유스케이스, 포트
 ├── adapter
@@ -27,6 +28,8 @@ sample
 ├── build-plugin               # (included build) Gradle convention plugin
 └── common                     # (included build) 공통 라이브러리
 ```
+
+`./gradlew :server:web:bootJar` 실행 시 `frontend`를 빌드하고 결과물을 서버 실행 JAR의 `static`에 포함한다.
 
 ## 의존 방향
 
