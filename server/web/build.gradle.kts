@@ -1,0 +1,15 @@
+plugins {
+    id("sample-springboot")
+}
+
+dependencies {
+    runtimeOnly(project(":adapter:inbound:controller"))
+    runtimeOnly(project(":adapter:outbound:repository"))
+    runtimeOnly(project(":infrastructure:h2"))
+    runtimeOnly("com.sample.hexagonal.common:actuator")
+
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+
+    testImplementation(testFixtures(project(":application")))
+    testImplementation("org.springframework:spring-tx")
+}
