@@ -25,3 +25,6 @@ Status: draft
 ## Open questions
 - [아직 결정되지 않은 사항]
 - [추가 확인이 필요한 사항]
+
+## Sources
+- [입력 문서의 상대 경로 또는 원문 URL]

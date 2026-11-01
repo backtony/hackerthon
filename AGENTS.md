@@ -115,20 +115,20 @@ LLM 코딩 시 자주 발생하는 실수를 줄이기 위한 행동 가이드. 
 - 의존성 주입은 생성자 주입 우선, 필드 주입 지양
 - RESTful API: 리소스 기반 URI, 적절한 HTTP 메소드, 명확한 상태 코드
 
----
-
-# 빌드
+## 빌드
 
 - 변경 후 `./gradlew ktlintFormat` → `./gradlew clean build` 로 검증한다. 루트의 `ktlintFormat`, `lint` 는 하위 모듈 태스크를 묶은 커스텀 태스크다.
 - `build-plugin`, `common` 은 `includeBuild` 로 포함된 별도 빌드다. `common` 모듈은 루트에서 `./gradlew :common:actuator:test` 처럼 실행한다. `-p common` 은 동작하지 않는다.
 - Java 21, Kotlin, Spring Boot 4.x (Jackson 3 = `tools.jackson.*`), Hibernate 7.
 
-# 코드 스타일
+## 코드 스타일
 
 - ktlint `intellij_idea` 스타일, 최대 140자. 생성자 파라미터가 2개 이상이면 한 줄에 하나씩(`.editorconfig`).
 - import 순서 규칙은 비활성화되어 있어 ktlintFormat 이 정렬해 주지 않는다.
 
-# 문서
+## 문서
+
+개발 관련 문서는 저장소 루트의 `docs/` 하위에 생성하고 위치시킨다.
 
 모듈 역할, 패키지·포트 규칙, 애그리거트 설계 기준, 코드 관례는 아래 개발가이드를 따른다.
 
@@ -140,7 +140,7 @@ LLM 코딩 시 자주 발생하는 실수를 줄이기 위한 행동 가이드. 
 
 ## 피처 문서 라이프사이클
 
-피처별 의도, 설계, 개발 계획은 `docs/feature-<name>/` 아래에 문서화한다. `<name>`은 영문 kebab-case를 사용한다.
+피처별 의도, 설계, 개발 계획은 `docs/feature-<name>/` 아래에 문서화한다. `<name>`은 영문 kebab-case를 사용한다. superpowers skill이 만드는 문서는 `docs/superpowers/` 대신 아래 해당 문서에 작성한다.
 
 문서는 다음 순서로 작성하고, 이전 단계의 내용을 검토·확정한 뒤 다음 단계로 진행한다.
 
@@ -148,8 +148,9 @@ LLM 코딩 시 자주 발생하는 실수를 줄이기 위한 행동 가이드. 
 intent.md → spec-design.md → plan.md → 구현 → verification.md 기반 검증
 ```
 
-- `intent.md`: 구현 방법이 아니라 해결하려는 문제와 의도를 기록한다. 목표, 비목표, 영향받는 사용자·시스템, 제약사항, 성공 기준, 미결정 사항을 포함한다.
+- `intent.md`: 구현 방법이 아니라 해결하려는 문제와 의도를 기록한다. [docs/intent.md](docs/intent.md) 형식을 따른다.
 - `spec-design.md`: 승인된 `intent.md`를 구현 가능한 요구사항과 설계로 구체화한다. 요구사항 ID, 도메인·API·화면·데이터 설계, 대안과 트레이드오프, 제약사항 반영 방법, 우려사항과 결정사항을 포함한다.
+- `question.md`: 사용자가 바로 답할 수 없는 외부 의사결정을 질문, 배경, 선택지, 답변 상태로 기록한다. 답의 내용을 기술적 가정으로 대체하지 않으며, 질문이 남아 핵심 설계를 결정할 수 없으면 `spec-design.md`를 확정하지 않는다.
 - `plan.md`: `spec-design.md`를 코드 변경 작업으로 분해한다. 작업 순서, 정확한 모듈·파일, 영향받는 인터페이스, 필요한 테스트, 검증 명령과 완료 조건을 포함한다. 계획만으로 구현자가 임의의 핵심 결정을 내리지 않도록 작성한다.
 - `verification.md`: 앞선 문서를 종합한 구현 완료 검증 기준서다. 요구사항 추적, 구현 누락·오류, 엣지 케이스, 통합 영향, 보안 이슈, 회귀 위험과 잔여 위험을 점검하고 실제 실행 명령·결과·근거를 기록한다.
 
@@ -157,7 +158,4 @@ intent.md → spec-design.md → plan.md → 구현 → verification.md 기반 �
 
 피처 작업 전 관련 문서를 확인하고, 구현 중 요구사항이나 설계가 바뀌면 해당 문서를 먼저 갱신한다. 문서와 코드의 불일치를 발견하면 임의로 무시하지 말고 문서 또는 구현 중 어느 것을 기준으로 할지 명시한다. 단순 변경은 문서 단계를 축약할 수 있지만, 축약 이유와 검증 방법은 남긴다.
 
-문서 상태는 필요에 따라 `draft`, `ready`, `implemented`, `verified`를 사용한다. 설계와 계획은 구현 전에 검토하고, `verified`는 검증 근거가 남은 경우에만 사용한다.
-
----
-
+각 문서 상단에 `Status: draft` 또는 `Status: confirmed`를 표시한다. 사용자 승인 전에는 `draft`, 승인 후에는 `confirmed`로 표시하고, `confirmed` 문서를 변경하면 다시 `draft`로 되돌린다.
